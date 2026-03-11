@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simoni Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: rgb(2, 2, 52);
+        color: white;
+        font-family: "Poppins", sans-serif;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Tech Background Container */
+      #tech-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Sharper Torch Effect - Radius reduced to 250px */
+      #bg-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        background: radial-gradient(
+          200px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+          rgba(2, 2, 52, 0) 0%,
+          rgba(2, 2, 52, 0.9) 60%,
+          rgb(2, 2, 52) 100%
+        );
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 80px;
+        background-color: rgb(11, 11, 78);
+      }
+      nav ul {
+        display: flex;
+        justify-content: center;
+      }
+      nav ul li {
+        list-style: none;
+        margin: 0 23px;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: white;
+      }
+      nav ul li a:hover {
+        color: blueviolet;
+        transition: 0.3s;
+        font-size: 1.02rem;
+      }
+      main hr {
+        border: none;
+        background: #9c97f1;
+        height: 1.2px;
+        margin: 60px 84px;
+      }
+      .left {
+        font-size: 1.5rem;
+      }
+      .firstSection {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 60px 0;
+      }
+      .firstSection > div {
+        width: 40%;
+      }
+      .leftSection {
+        font-size: 3rem;
+        margin: 50px 0;
+      }
+      .rightSection img {
+        width: 70%;
+        height: 29rem;
+      }
+      .purple {
+        color: blueviolet;
+      }
+      .text-gray {
+        color: gray;
+        font-size: 1.2rem;
+      }
+      #element {
+        color: blueviolet;
+      }
+      .secondSection {
+        max-width: 80vw;
+        margin: auto;
+        min-height: 60vh;
+      }
+      .secondSection h1 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+      }
+      .box {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-top: 40px;
+      }
+      .experience {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid blueviolet;
+      }
+      .experience h2 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        color: blueviolet;
+      }
+      .experience p {
+        font-size: 1rem;
+        color: lightgray;
+      }
+
+      /* Section Layouts */
+      .projectsSection,
+      .certificationsSection,
+      .aboutSection,
+      .skillsSection,
+      .contactSection {
+        max-width: 85vw;
+        margin: auto;
+        min-height: 60vh;
+      }
+      .projectsSection h1,
+      .certificationsSection h1,
+      .aboutSection h1,
+      .skillsSection h1,
+      .contactSection h1 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      .aboutSection p {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        color: lightgray;
+        text-align: center;
+        margin: auto;
+      }
+
+      /* Skills Section */
+      .skills-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        text-align: center;
+      }
+      .skill-card {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        border-radius: 12px;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .skill-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+      }
+      .skill-card h3 {
+        font-size: 1.2rem;
+        color: rgb(198, 190, 205);
+      }
+
+      .projects-container,
+      .certifications-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+      }
+      .project-card,
+      .certification-card {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .project-card:hover,
+      .certification-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      }
+      .project-card img,
+      .certification-card img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+      .project-card h3,
+      .certification-card h3 {
+        font-size: 1.3rem;
+        color: blueviolet;
+        margin-bottom: 10px;
+      }
+      .project-card p,
+      .certification-card p {
+        font-size: 0.95rem;
+        color: lightgray;
+        margin-bottom: 15px;
+      }
+      .project-card a,
+      .certification-card a {
+        display: inline-block;
+        padding: 8px 16px;
+        background: blueviolet;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background 0.3s;
+      }
+      .project-card a:hover,
+      .certification-card a:hover {
+        background: rgb(120, 50, 180);
+      }
+
+      /* Contact Section Styling */
+      .contact-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .contact-form {
+        flex: 1;
+        min-width: 300px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 30px;
+        border-radius: 12px;
+      }
+      .contact-form input, .contact-form textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: white;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+      .contact-form button {
+        background: blueviolet;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.3s;
+      }
+      .contact-form button:hover {
+        background: rgb(120, 50, 180);
+      }
+      .contact-info {
+        flex: 1;
+        min-width: 300px;
+        text-align: left;
+      }
+      .contact-info h2 {
+        color: blueviolet;
+        margin-bottom: 20px;
+      }
+      .contact-info p {
+        margin-bottom: 15px;
+        color: lightgray;
+      }
+      .contact-info a {
+        color: blueviolet;
+        text-decoration: none;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: rgb(11, 11, 78);
+        margin-top: 50px;
+        font-size: 0.9rem;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="tech-bg"></canvas>
+    <div id="bg-mask"></div>
+
+    <header>
+      <nav>
+        <div class="left">Simoni's Portfolio</div>
+        <div class="right">
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="Resumee.pdf">Resume</a></li>
+            <li><a href="#contact">Contact Me</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="firstSection" id="home">
+        <div class="leftSection">
+          Hi, I'm <span class="purple">Simoni</span>
+          <div>and I am a passionate</div>
+          <span id="element"></span>
+        </div>
+        <div class="rightSection">
+          <img src="bg.png" alt="bg" />
+        </div>
+      </section>
+
+      <hr />
+
+      <section class="aboutSection" id="about">
+        <h1>About Me</h1>
+        <p>
+          Hello! I'm Simoni, a Computer Science and Engineering student who’s
+          genuinely curious about how things work in tech. I’ve been exploring
+          coding, web development, AI, and problem-solving to figure out what I
+          enjoy the most — and right now, web development has my full attention.
+          I like learning by building. I’ve worked on projects like a Personal
+          Expense Tracker and a Clinical Appointment Scheduler, and every
+          project teaches me something new.
+        </p>
+        <p>
+          I’m still growing, still experimenting, and always trying to get
+          better step by step. I’m open to internships, collaborations, and
+          opportunities where I can learn, contribute, and challenge myself.I’m
+          especially interested in building web applications that are simple,
+          useful, and actually solve real problems. I just want to keep
+          improving, keep building, and turn my skills into something meaningful
+          over time.
+        </p>
+      </section>
+
+      <hr />
+
+      <section class="skillsSection" id="skills">
+        <h1>My Skills</h1>
+        <div class="skills-container">
+          <div class="skill-card"><h3>Python</h3></div>
+          <div class="skill-card"><h3>HTML</h3></div>
+          <div class="skill-card"><h3>CSS</h3></div>
+          <div class="skill-card"><h3>JavaScript</h3></div>
+          <div class="skill-card"><h3>Node.js</h3></div>
+          <div class="skill-card"><h3>MongoDB</h3></div>
+          <div class="skill-card"><h3>C</h3></div>
+          <div class="skill-card"><h3>C++</h3></div>
+          <div class="skill-card"><h3>Java</h3></div>
+          <div class="skill-card"><h3>Canva</h3></div>
+          <div class="skill-card"><h3>Power BI</h3></div>
+        </div>
+      </section>
+
+      <hr />
+
+      <section class="secondSection" id="experience">
+        <span class="text-gray">What I have done so far</span>
+        <h1>Past Experience</h1>
+        <div class="box">
+          <div class="experience">
+            <h2>Web Dev Internship - TechnoHacks EduTech</h2>
+            <p>
+              Completed their one month virtual training program and worked on
+              building frontend for basic webpages as projects
+            </p>
+          </div>
+          <div class="experience">
+            <h2>Frontend Intern - Internzvalley</h2>
+            <p>
+              Built and deployed 2 responsive frontend projects (personal
+              portfolio and shopping website) improving usability and mobile
+              responsiveness.
+            </p>
+          </div>
+          <div class="experience">
+            <h2>Campus Ambassador - T&P Cell, DYPCET</h2>
+            <p>
+              Represented the Training & Placement Cell, connecting students
+              with opportunities and workshops.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr />
+
+      <section class="projectsSection" id="projects">
+        <h1>My Projects</h1>
+        <div class="projects-container">
+          <div class="project-card">
+            <img src="clinic.png" alt="Clinic Scheduler" />
+            <h3>Clinic Appointment Scheduler</h3>
+            <p>
+              A website to streamline patient appointment booking in clinics.
+              Built with HTML, CSS and Javascript.
+            </p>
+            <a href="https://sim-17-afk.github.io/clinic-scheduler/"
+              >View Project</a
+            >
+          </div>
+          <div class="project-card">
+            <img src="project2.png" alt="Portfolio Website" />
+            <h3>Personal Portfolio</h3>
+            <p>
+              Designed and developed my own portfolio showcasing skills and
+              projects with a modern UI. Built with HTML, CSS, and JavaScript.
+            </p>
+            <a href="#">View Project</a>
+          </div>
+          <div class="project-card">
+            <img src="project3.png" alt="SpendSnitch Project" />
+            <h3>SpendSnitch</h3>
+            <p>
+              A personal finance tracker featuring real-time data visualization
+              and secure transaction management. Built with HTML, CSS,
+              Javascript, Node.js, and MongoDB.
+            </p>
+            <a href="https://spendsnitch-web.onrender.com">View Project</a>
+          </div>
+        </div>
+      </section>
+
+      <hr />
+
+      <section class="certificationsSection" id="certifications">
+        <h1>My Certifications</h1>
+        <div class="certifications-container">
+          <div class="certification-card">
+            <img src="be10x.png" alt="Adobe Animate Certificate" />
+            <h3>AI Tools (be10x)</h3>
+            <p>
+              Completed Adobe Animate certification on Udemy, mastering
+              animation design principles and interactive projects.
+            </p>
+            <a href="be10x.png">View Certificate</a>
+          </div>
+
+          <div class="certification-card">
+            <img src="pytorch.png" alt="Introduction to PyTorch Certificate" />
+            <h3>Introduction to PyTorch</h3>
+            <p>
+              Completed Introduction to PyTorch certification on
+              simplilearn(SkillUP), mastering neural network design and
+              implementation.
+            </p>
+            <a href="pytorch.png">View Certificate</a>
+          </div>
+
+          <div class="certification-card">
+            <img src="animate.png" alt="Adobe Animate Certificate" />
+            <h3>Adobe Animate (Udemy)</h3>
+            <p>
+              Completed Adobe Animate certification on Udemy, mastering
+              animation design principles and interactive projects.
+            </p>
+            <a href="animate.png">View Certificate</a>
+          </div>
+
+          <div class="certification-card">
+            <img src="animate.png" alt="Adobe Animate Certificate" />
+            <h3>Adobe Animate (Udemy)</h3>
+            <p>
+              Completed Adobe Animate certification on Udemy, mastering
+              animation design principles and interactive projects.
+            </p>
+            <a href="animate.png">View Certificate</a>
+          </div>
+
+          <div class="certification-card">
+            <img src="c.png" alt="C Programming Certificate" />
+            <h3>C Programming (Great Learning)</h3>
+            <p>
+              Earned a C Programming certificate from Great Learning Academy,
+              covering problem-solving and algorithm design.
+            </p>
+            <a href="c.png">View Certificate</a>
+          </div>
+
+          <div class="certification-card">
+            <img src="cybersecurity.png" alt="Cybersecurity Certificate" />
+            <h3>Introduction to Cybersecurity (Cisco Networking Academy)</h3>
+            <p>
+              Introduction to Cybersecurity from Cisco Networking Academy,
+              focusing on security principles and practices.
+            </p>
+            <a href="cybersecurity.png">View Certificate</a>
+          </div>
+        </div>
+      </section>
+
+      <hr />
+
+      <section class="contactSection" id="contact">
+        <h1>Contact Me</h1>
+        <div class="contact-container">
+          <div class="contact-info">
+            <h2>Let's Talk</h2>
+            <p>I am currently looking for internship opportunities. If you have any questions or just want to say hi, my inbox is always open!</p>
+            <p><strong>Email:</strong> <a href="mailto:sawantsimoni@gmail.com">sawantsimoni@gmail.com</a></p>
+            <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/simoni-sawant-893061225" target="_blank">Simoni Sawant</a></p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/sim-17-afk" target="_blank">sim-17-afk</a></p>
+          </div>
+          <div class="contact-form">
+            <form action="https://formspree.io/f/xnjbeanb" method="POST">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Your Email" required>
+              <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+              <button type="submit">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>© 2025 Simoni | All Rights Reserved</footer>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      // 1. TYPED JS
+      var typed = new Typed("#element", {
+        strings: ["CSE Student", "Web Developer", "Tech Enthusiast"],
+        loop: true,
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 1000,
+      });
+
+      // 2. HIGH DENSITY TECH SYMBOLS
+      const canvas = document.getElementById('tech-bg');
+      const ctx = canvas.getContext('2d');
+      const symbols = ['< >', '{ }', '1 0', 'js', '//', '[ ]', 'C++', 'Py', '#', '/* */', '&&', '||'];
+      let particles = [];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class SymbolParticle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.text = symbols[Math.floor(Math.random() * symbols.length)];
+          this.fontSize = Math.random() * 8 + 10;
+        }
+        draw() {
+          ctx.fillStyle = 'rgba(156, 151, 241, 0.2)'; // Faint purple glow
+          ctx.font = `${this.fontSize}px monospace`;
+          ctx.fillText(this.text, this.x, this.y);
+        }
+      }
+
+      // Density increased to 300
+      for (let i = 0; i < 400; i++) {
+        particles.push(new SymbolParticle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => p.draw());
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      // 3. SHARP CURSOR TRACKING
+      window.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+      });
+    </script>
+  </body>
+</html>
