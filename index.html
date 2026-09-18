@@ -201,10 +201,60 @@
       }
 
       /* ─── Responsive ─── */
-      @media (max-width: 600px) {
+
+      /* Large tablets / small laptops */
+      @media (max-width: 1024px) {
+        header { padding: 24px 36px; }
+        .profiles-grid { gap: 30px; }
+        .profile-avatar-wrap { width: 130px; height: 130px; }
+      }
+
+      /* Tablets */
+      @media (max-width: 768px) {
         header { padding: 20px 24px; }
-        .profile-avatar-wrap { width: 110px; height: 110px; }
+        .netflix-logo { font-size: 1.8rem; }
+        .who-title { font-size: clamp(1.6rem, 5vw, 2.4rem); }
         .profiles-grid { gap: 24px; }
+        .profile-avatar-wrap { width: 115px; height: 115px; }
+        main { gap: 40px; }
+        .manage-btn { font-size: 0.9rem; padding: 8px 24px; }
+      }
+
+      /* Mobile phones */
+      @media (max-width: 600px) {
+        body { overflow-y: auto; overflow-x: hidden; }
+        header { padding: 16px 20px; }
+        .netflix-logo { font-size: 1.5rem; }
+        .who-title { font-size: clamp(1.3rem, 6vw, 1.8rem); letter-spacing: 0.04em; }
+        main { gap: 32px; padding: 16px; justify-content: flex-start; padding-top: 10vh; }
+        .profiles-grid { gap: 20px; }
+        .profile-avatar-wrap { width: 90px; height: 90px; border-radius: 6px; }
+        .profile-name { font-size: 0.85rem; }
+        .manage-btn { font-size: 0.85rem; padding: 8px 20px; }
+      }
+
+      /* Very small phones */
+      @media (max-width: 400px) {
+        header { padding: 14px 16px; }
+        main { padding-top: 8vh; }
+        .profiles-grid { gap: 16px; }
+        .profile-avatar-wrap { width: 75px; height: 75px; }
+        .profile-name { font-size: 0.78rem; }
+        .profile { gap: 8px; }
+      }
+
+      /* Touch-friendly: disable parallax on touch devices */
+      @media (hover: none) and (pointer: coarse) {
+        .profile:hover .profile-avatar-wrap {
+          border-color: transparent;
+          transform: none;
+          box-shadow: none;
+        }
+        .profile:active .profile-avatar-wrap {
+          border-color: #fff;
+          transform: scale(1.05);
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
+        }
       }
     </style>
   </head>
@@ -303,15 +353,17 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateTo('designer.html'); }
       });
 
-      // Slight parallax tilt on mouse move
+      // Slight parallax tilt on mouse move (desktop only)
       const grid = document.getElementById('profilesGrid');
-      document.addEventListener('mousemove', (e) => {
-        const cx = window.innerWidth  / 2;
-        const cy = window.innerHeight / 2;
-        const dx = (e.clientX - cx) / cx;
-        const dy = (e.clientY - cy) / cy;
-        grid.style.transform = `perspective(800px) rotateY(${dx * 3}deg) rotateX(${-dy * 2}deg)`;
-      });
+      if (!('ontouchstart' in window)) {
+        document.addEventListener('mousemove', (e) => {
+          const cx = window.innerWidth  / 2;
+          const cy = window.innerHeight / 2;
+          const dx = (e.clientX - cx) / cx;
+          const dy = (e.clientY - cy) / cy;
+          grid.style.transform = `perspective(800px) rotateY(${dx * 3}deg) rotateX(${-dy * 2}deg)`;
+        });
+      }
     </script>
 
   </body>

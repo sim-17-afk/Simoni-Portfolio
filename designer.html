@@ -106,11 +106,11 @@
         background: linear-gradient(135deg, #1a0a14 0%, #2d0f24 40%, #160618 100%);
       }
 
-      /* Floating shapes canvas */
+      /* Animated design symbols rain canvas */
       #hero-canvas {
         position: absolute;
         inset: 0;
-        opacity: 0.25;
+        opacity: 0.22;
       }
 
       .hero-gradient {
@@ -312,12 +312,123 @@
 
       .section-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 20px 48px 40px; }
 
+      /* ─── Mobile menu toggle ─── */
+      .menu-toggle {
+        display: none;
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 6px;
+      }
+
+      /* ─── Responsive ─── */
+
+      /* Small laptops */
+      @media (max-width: 1024px) {
+        nav { padding: 0 28px; }
+        .hero { padding: 0 28px 50px; }
+        .row, .contact-row { padding: 0 28px; }
+        .section-divider { margin: 20px 28px 30px; }
+        .modal-inner { padding: 70px 28px 50px; }
+        .design-card { width: 220px; }
+      }
+
+      /* Tablets */
       @media (max-width: 768px) {
+        .menu-toggle { display: block; }
+
         nav { padding: 0 20px; }
-        .nav-links { display: none; }
-        .hero { padding: 0 20px 48px; }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 68px;
+          left: 0; right: 0;
+          background: rgba(20,20,20,0.98);
+          backdrop-filter: blur(12px);
+          flex-direction: column;
+          padding: 16px 24px;
+          gap: 4px;
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .nav-links.open { display: flex; }
+        .nav-links a {
+          font-size: 1rem;
+          padding: 10px 0;
+          display: block;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .hero { padding: 0 20px 48px; height: 65vh; min-height: 400px; }
+        .hero-name { font-size: clamp(2rem, 6vw, 3rem); }
+        .hero-about { font-size: 0.9rem; }
+        .hero-btns { gap: 10px; }
+        .btn-primary, .btn-secondary { padding: 10px 20px; font-size: 0.9rem; }
+
         .row, .contact-row { padding: 0 20px; }
         .section-divider { margin: 20px 20px 30px; }
+        .row-title { font-size: 1.2rem; }
+        .modal-inner { padding: 60px 20px 40px; }
+        .design-card { width: 200px; }
+        .design-card img { height: 200px; }
+        .cert-card { width: 200px; }
+      }
+
+      /* Mobile phones */
+      @media (max-width: 600px) {
+        nav { height: 56px; }
+        .nav-logo { font-size: 1.3rem; }
+        .nav-profile span { display: none; }
+        .nav-profile img { width: 30px; height: 30px; }
+        .nav-links { top: 56px; }
+
+        .hero { height: auto; min-height: 60vh; padding: 80px 16px 40px; align-items: center; }
+        .hero-content { max-width: 100%; }
+        .hero-name { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+        .hero-role { font-size: 0.95rem; margin-bottom: 14px; }
+        .hero-about { font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px; }
+        .hero-btns { flex-direction: column; gap: 8px; }
+        .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 12px 20px; }
+
+        .row, .contact-row { padding: 0 16px; }
+        .section-divider { margin: 16px 16px 24px; }
+        .row-title { font-size: 1.1rem; }
+        .row-count { font-size: 0.78rem; }
+        .row-header { gap: 10px; flex-wrap: wrap; }
+
+        .design-card { width: 180px; }
+        .design-card img { height: 180px; }
+        .cert-card { width: 180px; }
+
+        .contact-grid { flex-direction: column; }
+        .contact-pill { font-size: 0.85rem; padding: 12px 16px; }
+
+        .modal-grid {
+          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+          gap: 12px;
+        }
+        .modal-grid.design-modal-grid {
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 14px;
+        }
+        .modal-title { font-size: 1.4rem; }
+        .modal-inner { padding: 50px 16px 30px; }
+      }
+
+      /* Very small phones */
+      @media (max-width: 400px) {
+        .hero { padding: 70px 12px 30px; }
+        .hero-name { font-size: 1.6rem; }
+        .row, .contact-row { padding: 0 12px; }
+        .section-divider { margin: 12px 12px 20px; }
+        .design-card { width: 160px; }
+        .design-card img { height: 160px; }
+        .cert-card { width: 170px; }
+        .view-all-btn { font-size: 0.72rem; padding: 5px 12px; }
+        .modal-grid.design-modal-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       /* ─── VIEW ALL BUTTON ─── */
@@ -463,7 +574,8 @@
     <!-- ─── NAV ─── -->
     <nav>
       <a class="nav-logo" href="index.html">SIMONI</a>
-      <ul class="nav-links">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+      <ul class="nav-links" id="navLinks">
         <li><a href="#skills">Skills</a></li>
         <li><a href="#designs">My Designs</a></li>
         <li><a href="#certifications">Certifications</a></li>
@@ -476,7 +588,7 @@
       </a>
     </nav>
 
-    <!-- ─── HERO ─── */
+    <!-- ─── HERO ─── -->
     <section class="hero">
       <div class="hero-bg"></div>
       <canvas id="hero-canvas"></canvas>
@@ -537,7 +649,7 @@
       <div class="row" id="designs">
         <div class="row-header">
           <h2 class="row-title">My Designs</h2>
-          <span class="row-count">11 works</span>
+          <span class="row-count">10 works</span>
           <button class="view-all-btn" data-modal="modal-designs">View All</button>
         </div>
         <div class="row-strip">
@@ -576,10 +688,6 @@
           <div class="design-card">
             <img src="Designs/2 (3).png" alt="Hotel Murli Ad" />
             <div class="design-card-label">Hotel Murli – Restaurant Ad</div>
-          </div>
-          <div class="design-card">
-            <img src="Designs/3 (2).png" alt="Akshay Foundry Equipments" />
-            <div class="design-card-label">Akshay Foundry – Business Poster</div>
           </div>
           <div class="design-card">
             <img src="Designs/8275919798.png" alt="Computer World Ad" />
@@ -631,10 +739,6 @@
             <div class="design-card">
               <img src="Designs/2 (3).png" alt="Hotel Murli Ad" />
               <div class="design-card-label">Hotel Murli – Restaurant Ad</div>
-            </div>
-            <div class="design-card">
-              <img src="Designs/3 (2).png" alt="Akshay Foundry" />
-              <div class="design-card-label">Akshay Foundry – Business Poster</div>
             </div>
             <div class="design-card">
               <img src="Designs/8275919798.png" alt="Computer World Ad" />
@@ -736,62 +840,66 @@
     </div>
 
     <script>
-      // Floating abstract shapes animation in hero
+      // ── Mobile hamburger toggle ──
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinksEl = document.getElementById('navLinks');
+      if (menuToggle && navLinksEl) {
+        menuToggle.addEventListener('click', () => {
+          navLinksEl.classList.toggle('open');
+          menuToggle.textContent = navLinksEl.classList.contains('open') ? '✕' : '☰';
+        });
+        navLinksEl.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navLinksEl.classList.remove('open');
+            menuToggle.textContent = '☰';
+          });
+        });
+      }
+
+      // ── Animated design-symbol rain on hero canvas ──
       const canvas = document.getElementById('hero-canvas');
       const ctx    = canvas.getContext('2d');
-      let shapes   = [];
+      const syms   = [
+        '✦', 'UI', 'UX', 'RGB', 'HEX', 'SVG', 'px', '✎',
+        'CMYK', 'CSS', 'dpi', 'font', 'grid', 'vector', 'layer',
+        'path', 'HSL', 'art', 'frame', '◆', 'bezier', 'canvas'
+      ];
+      let drops = [];
 
       function resizeCanvas() {
         canvas.width  = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
-        shapes = [];
-        for (let i = 0; i < 28; i++) {
-          shapes.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: 20 + Math.random() * 60,
-            dx: (Math.random() - 0.5) * 0.4,
-            dy: (Math.random() - 0.5) * 0.4,
-            hue: 300 + Math.random() * 60,
-            alpha: 0.15 + Math.random() * 0.25,
-            type: Math.floor(Math.random() * 3)
+        drops = [];
+        const cols = Math.floor(canvas.width / 32);
+        for (let i = 0; i < cols; i++) {
+          drops.push({
+            x: i * 32 + Math.random() * 16,
+            y: Math.random() * -canvas.height,
+            speed: 0.4 + Math.random() * 0.7,
+            sym: syms[Math.floor(Math.random() * syms.length)],
+            size: 11 + Math.random() * 4
           });
         }
       }
 
-      function drawShapes() {
+      function drawRain() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        shapes.forEach(s => {
-          ctx.save();
-          ctx.globalAlpha = s.alpha;
-          ctx.fillStyle = `hsl(${s.hue}, 80%, 65%)`;
-          ctx.beginPath();
-          if (s.type === 0) {
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          } else if (s.type === 1) {
-            ctx.rect(s.x - s.r / 2, s.y - s.r / 2, s.r, s.r);
-          } else {
-            ctx.moveTo(s.x, s.y - s.r);
-            ctx.lineTo(s.x + s.r, s.y + s.r);
-            ctx.lineTo(s.x - s.r, s.y + s.r);
-            ctx.closePath();
+        drops.forEach(d => {
+          ctx.fillStyle = 'rgba(244, 114, 182, 0.65)';
+          ctx.font = `${d.size}px 'Outfit', monospace`;
+          ctx.fillText(d.sym, d.x, d.y);
+          d.y += d.speed;
+          if (d.y > canvas.height + 30) {
+            d.y = -30;
+            d.sym = syms[Math.floor(Math.random() * syms.length)];
           }
-          ctx.fill();
-          ctx.restore();
-
-          s.x += s.dx;
-          s.y += s.dy;
-          if (s.x < -s.r) s.x = canvas.width + s.r;
-          if (s.x > canvas.width + s.r) s.x = -s.r;
-          if (s.y < -s.r) s.y = canvas.height + s.r;
-          if (s.y > canvas.height + s.r) s.y = -s.r;
         });
-        requestAnimationFrame(drawShapes);
+        requestAnimationFrame(drawRain);
       }
 
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-      drawShapes();
+      drawRain();
 
       // ── Modal logic ──
       function openModal(id) {
