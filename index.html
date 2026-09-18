@@ -246,15 +246,24 @@
           <span class="profile-name">Web Developer</span>
         </div>
 
+        <!-- ── Profile 4: Programmer ── -->
+        <div class="profile profile-placeholder" id="programmerProfile" role="button" tabindex="0" aria-label="Programmer profile – enter dashboard">
+          <div class="profile-avatar-wrap">
+            💻
+          </div>
+          <span class="profile-name">Programmer</span>
+        </div>
+
       </div>
 
       <button class="manage-btn" id="manageBtn">Manage Profiles</button>
     </main>
 
     <script>
-      const simProfile    = document.getElementById('simProfile');
-      const webdevProfile = document.getElementById('webdevProfile');
-      const overlay       = document.getElementById('clickOverlay');
+      const simProfile        = document.getElementById('simProfile');
+      const webdevProfile     = document.getElementById('webdevProfile');
+      const programmerProfile = document.getElementById('programmerProfile');
+      const overlay           = document.getElementById('clickOverlay');
 
       function navigateTo(url) {
         overlay.classList.add('active');
@@ -271,6 +280,12 @@
       webdevProfile.addEventListener('click', () => navigateTo('webdev.html'));
       webdevProfile.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateTo('webdev.html'); }
+      });
+
+      // Programmer profile → programmer.html
+      programmerProfile.addEventListener('click', () => navigateTo('programmer.html'));
+      programmerProfile.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateTo('programmer.html'); }
       });
 
       // Slight parallax tilt on mouse move
