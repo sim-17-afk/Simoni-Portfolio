@@ -254,6 +254,14 @@
           <span class="profile-name">Programmer</span>
         </div>
 
+        <!-- ── Profile 5: Designer ── -->
+        <div class="profile profile-placeholder" id="designerProfile" role="button" tabindex="0" aria-label="Designer profile – enter dashboard">
+          <div class="profile-avatar-wrap">
+            🎨
+          </div>
+          <span class="profile-name">Designer</span>
+        </div>
+
       </div>
 
       <button class="manage-btn" id="manageBtn">Manage Profiles</button>
@@ -263,6 +271,7 @@
       const simProfile        = document.getElementById('simProfile');
       const webdevProfile     = document.getElementById('webdevProfile');
       const programmerProfile = document.getElementById('programmerProfile');
+      const designerProfile   = document.getElementById('designerProfile');
       const overlay           = document.getElementById('clickOverlay');
 
       function navigateTo(url) {
@@ -286,6 +295,12 @@
       programmerProfile.addEventListener('click', () => navigateTo('programmer.html'));
       programmerProfile.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateTo('programmer.html'); }
+      });
+
+      // Designer profile → designer.html
+      designerProfile.addEventListener('click', () => navigateTo('designer.html'));
+      designerProfile.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateTo('designer.html'); }
       });
 
       // Slight parallax tilt on mouse move

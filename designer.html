@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simoni | Designer Profile</title>
+    <meta name="description" content="Simoni Sawant – Designer profile. Design skills, work portfolio and certifications in a Netflix-style dashboard." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+      :root {
+        --red: #E50914;
+        --bg: #141414;
+        --surface: #1f1f1f;
+        --surface2: #2a2a2a;
+        --text: #e5e5e5;
+        --muted: #999;
+        --accent: #f472b6;
+        --accent2: #fb7bb8;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 48px;
+        height: 68px;
+        background: linear-gradient(to bottom, rgba(20,20,20,0.98) 0%, rgba(20,20,20,0) 100%);
+        backdrop-filter: blur(6px);
+      }
+
+      .nav-logo {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--red);
+        letter-spacing: -1px;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover { color: #fff; }
+
+      .nav-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .nav-profile img {
+        width: 34px;
+        height: 34px;
+        border-radius: 4px;
+        object-fit: cover;
+        border: 2px solid transparent;
+        transition: border-color 0.2s;
+      }
+
+      .nav-profile:hover img { border-color: #fff; }
+      .nav-profile span { font-size: 0.85rem; color: var(--muted); }
+
+      /* ─── HERO ─── */
+      .hero {
+        position: relative;
+        height: 75vh;
+        min-height: 480px;
+        display: flex;
+        align-items: flex-end;
+        padding: 0 48px 60px;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #1a0a14 0%, #2d0f24 40%, #160618 100%);
+      }
+
+      /* Floating shapes canvas */
+      #hero-canvas {
+        position: absolute;
+        inset: 0;
+        opacity: 0.25;
+      }
+
+      .hero-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, var(--bg) 0%, rgba(20,20,20,0.45) 40%, rgba(20,20,20,0.05) 100%);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+      }
+
+      .hero-label {
+        display: inline-block;
+        background: var(--accent);
+        color: #000;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 3px;
+        margin-bottom: 16px;
+      }
+
+      .hero-name {
+        font-size: clamp(2.6rem, 5vw, 4.2rem);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 8px;
+      }
+
+      .hero-name span { color: var(--accent2); }
+
+      .hero-role {
+        font-size: 1.1rem;
+        color: var(--muted);
+        margin-bottom: 20px;
+        font-weight: 300;
+      }
+
+      .hero-about {
+        font-size: 0.95rem;
+        color: #ccc;
+        line-height: 1.7;
+        max-width: 520px;
+        margin-bottom: 28px;
+      }
+
+      .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: #fff; color: #000; font-weight: 700; font-size: 1rem;
+        font-family: 'Outfit', sans-serif; padding: 12px 28px; border-radius: 4px;
+        text-decoration: none; border: none; cursor: pointer; transition: background 0.2s;
+      }
+      .btn-primary:hover { background: rgba(255,255,255,0.85); }
+
+      .btn-secondary {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: rgba(109,109,110,0.7); color: #fff; font-weight: 600; font-size: 1rem;
+        font-family: 'Outfit', sans-serif; padding: 12px 28px; border-radius: 4px;
+        text-decoration: none; border: none; cursor: pointer; transition: background 0.2s;
+      }
+      .btn-secondary:hover { background: rgba(109,109,110,0.5); }
+
+      /* ─── DASHBOARD ─── */
+      .dashboard { padding: 0 0 60px; }
+
+      .row { margin-bottom: 40px; padding: 0 48px; }
+
+      .row-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 18px; }
+      .row-title { font-size: 1.35rem; font-weight: 600; color: #fff; }
+      .row-count { font-size: 0.85rem; color: var(--accent2); font-weight: 400; }
+
+      .row-strip {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 12px;
+        scrollbar-width: thin;
+        scrollbar-color: #333 transparent;
+      }
+      .row-strip::-webkit-scrollbar { height: 4px; }
+      .row-strip::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
+
+      /* ─── SKILL PILL ─── */
+      .skill-pill {
+        flex-shrink: 0;
+        background: var(--surface);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 6px;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text);
+        white-space: nowrap;
+        transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        cursor: default;
+      }
+      .skill-pill:hover {
+        background: var(--surface2);
+        border-color: var(--accent2);
+        transform: scale(1.04);
+        color: #fff;
+      }
+
+      /* ─── DESIGN CARD (tall portrait-ish cards for showcase) ─── */
+      .design-card {
+        flex-shrink: 0;
+        width: 240px;
+        background: var(--surface);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.06);
+        transition: transform 0.25s, box-shadow 0.25s;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .design-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+        border-color: var(--accent);
+      }
+
+      .design-card img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s;
+      }
+
+      .design-card:hover img { transform: scale(1.04); }
+
+      .design-card-label {
+        position: absolute;
+        bottom: 0;
+        left: 0; right: 0;
+        padding: 30px 14px 14px;
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: #fff;
+        letter-spacing: 0.03em;
+      }
+
+      /* ─── CERT CARD ─── */
+      .cert-card {
+        flex-shrink: 0;
+        width: 220px;
+        background: var(--surface);
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.06);
+        transition: transform 0.25s, box-shadow 0.25s;
+      }
+      .cert-card:hover {
+        transform: scale(1.04);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      }
+      .cert-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+      .cert-card-img-placeholder {
+        width: 100%; height: 120px;
+        background: linear-gradient(135deg, #1a0a14, #2d0f24);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2.2rem;
+      }
+      .cert-card-body { padding: 14px; }
+      .cert-card-title { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 4px; line-height: 1.4; }
+      .cert-card-platform { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; }
+      .cert-card-link {
+        font-size: 0.78rem; font-weight: 600; color: var(--accent2);
+        text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;
+      }
+      .cert-card-link:hover { border-color: var(--accent2); }
+
+      /* ─── CONTACT ─── */
+      .contact-row { padding: 0 48px; margin-bottom: 60px; }
+      .contact-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
+      .contact-pill {
+        display: flex; align-items: center; gap: 10px;
+        background: var(--surface); border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 8px; padding: 14px 20px; text-decoration: none;
+        color: var(--text); font-size: 0.9rem;
+        transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      }
+      .contact-pill:hover {
+        background: var(--surface2); border-color: var(--accent2);
+        transform: translateY(-2px); color: #fff;
+      }
+      .contact-pill .icon { font-size: 1.2rem; }
+
+      footer { text-align: center; padding: 20px; font-size: 0.82rem; color: #555; border-top: 1px solid #222; }
+
+      .section-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 20px 48px 40px; }
+
+      @media (max-width: 768px) {
+        nav { padding: 0 20px; }
+        .nav-links { display: none; }
+        .hero { padding: 0 20px 48px; }
+        .row, .contact-row { padding: 0 20px; }
+        .section-divider { margin: 20px 20px 30px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- ─── NAV ─── -->
+    <nav>
+      <a class="nav-logo" href="index.html">SIMONI</a>
+      <ul class="nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#designs">My Designs</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="Resumee.pdf" target="_blank">Resume</a></li>
+      </ul>
+      <a class="nav-profile" href="index.html">
+        <img src="sim_avatar.jpg" alt="Sim" />
+        <span>Switch Profile</span>
+      </a>
+    </nav>
+
+    <!-- ─── HERO ─── */
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-gradient"></div>
+      <div class="hero-content">
+        <span class="hero-label">Designer</span>
+        <h1 class="hero-name">Hi, I'm <span>Simoni</span></h1>
+        <p class="hero-role">CSE Student &nbsp;·&nbsp; Graphic Designer &nbsp;·&nbsp; Visual Creator</p>
+        <p class="hero-about">
+          A creative mind behind posters, social media graphics, and visual content. I use tools like Canva and Adobe Animate to craft clean, engaging designs that communicate ideas effectively.
+        </p>
+        <div class="hero-btns">
+          <a class="btn-primary" href="Resumee.pdf" target="_blank">▶ &nbsp;View Resume</a>
+          <a class="btn-secondary" href="portfolio.html">ℹ &nbsp;Full Portfolio</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── DASHBOARD ─── -->
+    <div class="dashboard">
+
+      <!-- SKILLS -->
+      <div class="row" id="skills">
+        <div class="row-header">
+          <h2 class="row-title">Design Skills</h2>
+          <span class="row-count">5 skills</span>
+        </div>
+        <div class="row-strip">
+          <div class="skill-pill">Canva</div>
+          <div class="skill-pill">Adobe Animate</div>
+          <div class="skill-pill">Chart.js</div>
+          <div class="skill-pill">Power BI</div>
+          <div class="skill-pill">AI Tools</div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- DESIGNS GALLERY -->
+      <div class="row" id="designs">
+        <div class="row-header">
+          <h2 class="row-title">My Designs</h2>
+          <span class="row-count">6 works</span>
+        </div>
+        <div class="row-strip">
+
+          <div class="design-card">
+            <img src="Designs/1.png" alt="Rotaract Club Poster – Yellow variant" />
+            <div class="design-card-label">Rotaract Club Recruitment Poster</div>
+          </div>
+
+          <div class="design-card">
+            <img src="Designs/2.png" alt="Rotaract Club Poster – Pink variant" />
+            <div class="design-card-label">Rotaract Club Poster – Alt Design</div>
+          </div>
+
+          <div class="design-card">
+            <img src="Designs/3.png" alt="Rotaract Club Poster – Minimalist" />
+            <div class="design-card-label">Rotaract Club Poster – Minimalist</div>
+          </div>
+
+          <div class="design-card">
+            <img src="Designs/Team.png" alt="Silicon Students Society – Code Sprint" />
+            <div class="design-card-label">Code Sprint – Silicon Students Society</div>
+          </div>
+
+          <div class="design-card">
+            <img src="Designs/Chocolate Cake For Dessert Brown Plaid Instagram Story.png" alt="Cake4u Instagram Story Ad" />
+            <div class="design-card-label">Cake4u – Instagram Story Ad</div>
+          </div>
+
+          <div class="design-card">
+            <img src="Designs/1 (2).png" alt="Design work" />
+            <div class="design-card-label">Graphic Design Work</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- CERTIFICATIONS -->
+      <div class="row" id="certifications">
+        <div class="row-header">
+          <h2 class="row-title">Certifications</h2>
+          <span class="row-count">2 certificates</span>
+        </div>
+        <div class="row-strip">
+
+          <div class="cert-card">
+            <img src="animate.png" alt="Adobe Animate Certificate" />
+            <div class="cert-card-body">
+              <div class="cert-card-title">Adobe Animate</div>
+              <div class="cert-card-platform">Udemy</div>
+              <a class="cert-card-link" href="animate.png" target="_blank">View Certificate →</a>
+            </div>
+          </div>
+
+          <div class="cert-card">
+            <img src="be10x.png" alt="AI Tools Workshop" />
+            <div class="cert-card-body">
+              <div class="cert-card-title">AI Tools Workshop</div>
+              <div class="cert-card-platform">be10x</div>
+              <a class="cert-card-link" href="be10x.png" target="_blank">View Certificate →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- CONTACT -->
+      <div class="contact-row" id="contact">
+        <div class="row-header">
+          <h2 class="row-title">Let's Connect</h2>
+        </div>
+        <p style="color:var(--muted);font-size:0.95rem;margin-bottom:6px;">Currently looking for internship opportunities. My inbox is always open!</p>
+        <div class="contact-grid">
+          <a class="contact-pill" href="mailto:sawantsimoni@gmail.com">
+            <span class="icon">✉️</span> sawantsimoni@gmail.com
+          </a>
+          <a class="contact-pill" href="https://www.linkedin.com/in/simoni-sawant-893061225" target="_blank">
+            <span class="icon">💼</span> Simoni Sawant – LinkedIn
+          </a>
+          <a class="contact-pill" href="https://github.com/sim-17-afk" target="_blank">
+            <span class="icon">🐙</span> sim-17-afk – GitHub
+          </a>
+          <a class="contact-pill" href="Resumee.pdf" target="_blank">
+            <span class="icon">📄</span> Download Resume
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /dashboard -->
+
+    <footer>© 2025 Simoni Sawant &nbsp;|&nbsp; All Rights Reserved</footer>
+
+    <script>
+      // Floating abstract shapes animation in hero
+      const canvas = document.getElementById('hero-canvas');
+      const ctx    = canvas.getContext('2d');
+      let shapes   = [];
+
+      function resizeCanvas() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        shapes = [];
+        for (let i = 0; i < 28; i++) {
+          shapes.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: 20 + Math.random() * 60,
+            dx: (Math.random() - 0.5) * 0.4,
+            dy: (Math.random() - 0.5) * 0.4,
+            hue: 300 + Math.random() * 60,  // pink/purple range
+            alpha: 0.15 + Math.random() * 0.25,
+            type: Math.floor(Math.random() * 3) // 0=circle, 1=square, 2=triangle
+          });
+        }
+      }
+
+      function drawShapes() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        shapes.forEach(s => {
+          ctx.save();
+          ctx.globalAlpha = s.alpha;
+          ctx.fillStyle = `hsl(${s.hue}, 80%, 65%)`;
+          ctx.beginPath();
+          if (s.type === 0) {
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          } else if (s.type === 1) {
+            ctx.rect(s.x - s.r / 2, s.y - s.r / 2, s.r, s.r);
+          } else {
+            ctx.moveTo(s.x, s.y - s.r);
+            ctx.lineTo(s.x + s.r, s.y + s.r);
+            ctx.lineTo(s.x - s.r, s.y + s.r);
+            ctx.closePath();
+          }
+          ctx.fill();
+          ctx.restore();
+
+          s.x += s.dx;
+          s.y += s.dy;
+          if (s.x < -s.r) s.x = canvas.width + s.r;
+          if (s.x > canvas.width + s.r) s.x = -s.r;
+          if (s.y < -s.r) s.y = canvas.height + s.r;
+          if (s.y > canvas.height + s.r) s.y = -s.r;
+        });
+        requestAnimationFrame(drawShapes);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      drawShapes();
+    </script>
+
+  </body>
+</html>
