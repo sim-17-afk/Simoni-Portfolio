@@ -494,6 +494,146 @@
         .row, .contact-row { padding: 0 20px; }
         .section-divider { margin: 20px 20px 30px; }
       }
+
+      /* ─── VIEW ALL BUTTON ─── */
+      .view-all-btn {
+        margin-left: auto;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.18);
+        color: var(--accent2);
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        padding: 6px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+        white-space: nowrap;
+      }
+      .view-all-btn:hover {
+        background: var(--accent2);
+        border-color: var(--accent2);
+        color: #000;
+      }
+
+      /* ─── FULL-PAGE MODAL ─── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(0,0,0,0.92);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        overflow-y: auto;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-inner {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 80px 40px 60px;
+      }
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 36px;
+      }
+      .modal-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .modal-close {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
+        font-size: 1.4rem;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+      /* Grid inside modal */
+      .modal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+      }
+      .modal-grid .skill-pill {
+        flex-shrink: unset;
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+        padding: 18px 20px;
+      }
+      .modal-grid .project-card,
+      .modal-grid .cert-card {
+        flex-shrink: unset;
+        width: 100%;
+      }
+      .modal-grid .exp-card {
+        flex-shrink: unset;
+        width: 100%;
+      }
+      .modal-grid .design-card {
+        flex-shrink: unset;
+        width: 100%;
+      }
+
+      /* ─── LIGHTBOX ─── */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 900;
+        background: rgba(0,0,0,0.96);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s;
+      }
+      .lightbox.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .lightbox img {
+        max-width: 90vw;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 6px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 24px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.25);
+        color: #fff;
+        font-size: 1.4rem;
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.2s;
+      }
+      .lightbox-close:hover { background: rgba(255,255,255,0.22); }
     </style>
   </head>
   <body>
@@ -542,6 +682,7 @@
         <div class="row-header">
           <h2 class="row-title">My Skills</h2>
           <span class="row-count">12 skills</span>
+          <button class="view-all-btn" data-modal="modal-skills">View All</button>
         </div>
         <div class="row-strip">
           <div class="skill-pill">Javascript</div>
@@ -559,6 +700,30 @@
         </div>
       </div>
 
+      <!-- MODAL: Skills -->
+      <div class="modal-overlay" id="modal-skills" role="dialog" aria-modal="true" aria-label="All Skills">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 class="modal-title">My Skills</h2>
+            <button class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-grid">
+            <div class="skill-pill">Javascript</div>
+            <div class="skill-pill">HTML5</div>
+            <div class="skill-pill">CSS3</div>
+            <div class="skill-pill">Node.js</div>
+            <div class="skill-pill">Express.js</div>
+            <div class="skill-pill">MongoDB</div>
+            <div class="skill-pill">Git</div>
+            <div class="skill-pill">GitHub</div>
+            <div class="skill-pill">Render</div>
+            <div class="skill-pill">VS Code</div>
+            <div class="skill-pill">Vercel</div>
+            <div class="skill-pill">Chart.js</div>
+          </div>
+        </div>
+      </div>
+
       <div class="section-divider"></div>
 
       <!-- PROJECTS -->
@@ -566,9 +731,9 @@
         <div class="row-header">
           <h2 class="row-title">My Projects</h2>
           <span class="row-count">3 projects</span>
+          <button class="view-all-btn" data-modal="modal-projects">View All</button>
         </div>
         <div class="row-strip">
-
           <div class="project-card">
             <img src="clinic.png" alt="Clinic Appointment Scheduler" />
             <div class="project-card-body">
@@ -577,7 +742,6 @@
               <a class="project-card-link" href="https://sim-17-afk.github.io/clinic-scheduler/" target="_blank">View Project →</a>
             </div>
           </div>
-
           <div class="project-card">
             <img src="project2.png" alt="StudyBee" onerror="this.style.background='linear-gradient(135deg,#1e1035,#0f2048)';this.style.height='160px'" />
             <div class="project-card-body">
@@ -586,7 +750,6 @@
               <a class="project-card-link" href="https://study-bee-two.vercel.app/" target="_blank">View Project →</a>
             </div>
           </div>
-
           <div class="project-card">
             <img src="spendsnitch.png" alt="SpendSnitch" />
             <div class="project-card-body">
@@ -595,7 +758,42 @@
               <a class="project-card-link" href="https://spendsnitch-web.onrender.com" target="_blank">View Project →</a>
             </div>
           </div>
+        </div>
+      </div>
 
+      <!-- MODAL: Projects -->
+      <div class="modal-overlay" id="modal-projects" role="dialog" aria-modal="true" aria-label="All Projects">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 class="modal-title">My Projects</h2>
+            <button class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-grid">
+            <div class="project-card">
+              <img src="clinic.png" alt="Clinic Appointment Scheduler" />
+              <div class="project-card-body">
+                <div class="project-card-title">Clinic Appointment Scheduler</div>
+                <div class="project-card-desc">A website to streamline patient appointment booking in clinics.</div>
+                <a class="project-card-link" href="https://sim-17-afk.github.io/clinic-scheduler/" target="_blank">View Project →</a>
+              </div>
+            </div>
+            <div class="project-card">
+              <img src="project2.png" alt="StudyBee" onerror="this.style.background='linear-gradient(135deg,#1e1035,#0f2048)';this.style.height='160px'" />
+              <div class="project-card-body">
+                <div class="project-card-title">StudyBee – AI Study Assistant</div>
+                <div class="project-card-desc">Full-stack AI assistant. React, Node.js, Express.js, MongoDB.</div>
+                <a class="project-card-link" href="https://study-bee-two.vercel.app/" target="_blank">View Project →</a>
+              </div>
+            </div>
+            <div class="project-card">
+              <img src="spendsnitch.png" alt="SpendSnitch" />
+              <div class="project-card-body">
+                <div class="project-card-title">SpendSnitch</div>
+                <div class="project-card-desc">Finance tracker with data visualization. HTML, CSS, JS, Node.js, MongoDB.</div>
+                <a class="project-card-link" href="https://spendsnitch-web.onrender.com" target="_blank">View Project →</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -606,30 +804,57 @@
         <div class="row-header">
           <h2 class="row-title">Past Experience</h2>
           <span class="row-count">3 roles</span>
+          <button class="view-all-btn" data-modal="modal-experience">View All</button>
         </div>
         <div class="row-strip">
-
           <div class="exp-card">
             <div class="exp-card-title">Web Development Intern | InAmigos Foundation</div>
             <div class="exp-card-date">Jun 2026 – Jul 2026</div>
             <div class="exp-card-desc">Analyzed and redesigned the organization's website, deploying a modern, responsive interface that better showcases the NGO's initiatives.</div>
             <div class="exp-card-tech"><strong>Tech:</strong> HTML, CSS, JS, Git, GitHub, Render &nbsp;·&nbsp; <a href="https://paws-hearts-rfdu.onrender.com" target="_blank" style="color:#a78bfa;text-decoration:none">Live Demo →</a></div>
           </div>
-
           <div class="exp-card">
             <div class="exp-card-title">Web Development Intern | TechnoHacks EduTech</div>
             <div class="exp-card-date">Sep 2024 – Oct 2024</div>
             <div class="exp-card-desc">Completed a one-month virtual internship developing responsive web pages and strengthening frontend skills through hands-on projects.</div>
             <div class="exp-card-tech"><strong>Tech:</strong> HTML5, CSS3, Javascript</div>
           </div>
-
           <div class="exp-card">
             <div class="exp-card-title">Frontend Intern | Internzvalley</div>
             <div class="exp-card-date">Jan 2023 – Mar 2023</div>
             <div class="exp-card-desc">Developed and deployed two responsive frontend projects — a personal portfolio and an ecommerce website — focused on clean UI and mobile responsiveness.</div>
             <div class="exp-card-tech"><strong>Tech:</strong> HTML5, CSS3, Javascript</div>
           </div>
+        </div>
+      </div>
 
+      <!-- MODAL: Experience -->
+      <div class="modal-overlay" id="modal-experience" role="dialog" aria-modal="true" aria-label="All Experience">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 class="modal-title">Past Experience</h2>
+            <button class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-grid">
+            <div class="exp-card">
+              <div class="exp-card-title">Web Development Intern | InAmigos Foundation</div>
+              <div class="exp-card-date">Jun 2026 – Jul 2026</div>
+              <div class="exp-card-desc">Analyzed and redesigned the organization's website, deploying a modern, responsive interface that better showcases the NGO's initiatives.</div>
+              <div class="exp-card-tech"><strong>Tech:</strong> HTML, CSS, JS, Git, GitHub, Render &nbsp;·&nbsp; <a href="https://paws-hearts-rfdu.onrender.com" target="_blank" style="color:#a78bfa;text-decoration:none">Live Demo →</a></div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-card-title">Web Development Intern | TechnoHacks EduTech</div>
+              <div class="exp-card-date">Sep 2024 – Oct 2024</div>
+              <div class="exp-card-desc">Completed a one-month virtual internship developing responsive web pages and strengthening frontend skills through hands-on projects.</div>
+              <div class="exp-card-tech"><strong>Tech:</strong> HTML5, CSS3, Javascript</div>
+            </div>
+            <div class="exp-card">
+              <div class="exp-card-title">Frontend Intern | Internzvalley</div>
+              <div class="exp-card-date">Jan 2023 – Mar 2023</div>
+              <div class="exp-card-desc">Developed and deployed two responsive frontend projects — a personal portfolio and an ecommerce website — focused on clean UI and mobile responsiveness.</div>
+              <div class="exp-card-tech"><strong>Tech:</strong> HTML5, CSS3, Javascript</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -640,18 +865,17 @@
         <div class="row-header">
           <h2 class="row-title">Certifications</h2>
           <span class="row-count">4 certificates</span>
+          <button class="view-all-btn" data-modal="modal-certs">View All</button>
         </div>
         <div class="row-strip">
-
           <div class="cert-card">
             <div class="cert-card-img-placeholder">📊</div>
             <div class="cert-card-body">
-              <div class="cert-card-title">Tata – Data Visualisation: Empowering Business with Effective Insights</div>
+              <div class="cert-card-title">Tata – Data Visualisation</div>
               <div class="cert-card-platform">Forage</div>
               <a class="cert-card-link" href="TATA.pdf" target="_blank">View Certificate →</a>
             </div>
           </div>
-
           <div class="cert-card">
             <img src="be10x.png" alt="AI Tools" />
             <div class="cert-card-body">
@@ -660,7 +884,6 @@
               <a class="cert-card-link" href="be10x.png" target="_blank">View Certificate →</a>
             </div>
           </div>
-
           <div class="cert-card">
             <img src="cybersecurity.png" alt="Cybersecurity" />
             <div class="cert-card-body">
@@ -669,7 +892,6 @@
               <a class="cert-card-link" href="cybersecurity.png" target="_blank">View Certificate →</a>
             </div>
           </div>
-
           <div class="cert-card">
             <img src="animate.png" alt="Adobe Animate" />
             <div class="cert-card-body">
@@ -678,7 +900,50 @@
               <a class="cert-card-link" href="animate.png" target="_blank">View Certificate →</a>
             </div>
           </div>
+        </div>
+      </div>
 
+      <!-- MODAL: Certifications -->
+      <div class="modal-overlay" id="modal-certs" role="dialog" aria-modal="true" aria-label="All Certifications">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 class="modal-title">Certifications</h2>
+            <button class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-grid">
+            <div class="cert-card">
+              <div class="cert-card-img-placeholder">📊</div>
+              <div class="cert-card-body">
+                <div class="cert-card-title">Tata – Data Visualisation: Empowering Business with Effective Insights</div>
+                <div class="cert-card-platform">Forage</div>
+                <a class="cert-card-link" href="TATA.pdf" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+            <div class="cert-card">
+              <img src="be10x.png" alt="AI Tools" />
+              <div class="cert-card-body">
+                <div class="cert-card-title">AI Tools Workshop</div>
+                <div class="cert-card-platform">be10x</div>
+                <a class="cert-card-link" href="be10x.png" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+            <div class="cert-card">
+              <img src="cybersecurity.png" alt="Cybersecurity" />
+              <div class="cert-card-body">
+                <div class="cert-card-title">Introduction to Cybersecurity</div>
+                <div class="cert-card-platform">Cisco Networking Academy</div>
+                <a class="cert-card-link" href="cybersecurity.png" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+            <div class="cert-card">
+              <img src="animate.png" alt="Adobe Animate" />
+              <div class="cert-card-body">
+                <div class="cert-card-title">Adobe Animate</div>
+                <div class="cert-card-platform">Udemy</div>
+                <a class="cert-card-link" href="animate.png" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -709,6 +974,12 @@
     </div><!-- /dashboard -->
 
     <footer>© 2025 Simoni Sawant &nbsp;|&nbsp; All Rights Reserved</footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image fullscreen">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+      <img id="lightboxImg" src="" alt="Design fullscreen" />
+    </div>
 
     <script>
       // ── Animated code-symbol rain on hero canvas ──
@@ -746,6 +1017,60 @@
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
       drawRain();
+
+      // ── Modal logic ──
+      function openModal(id) {
+        const m = document.getElementById(id);
+        if (!m) return;
+        m.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal(m) {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.view-all-btn').forEach(btn => {
+        btn.addEventListener('click', () => openModal(btn.dataset.modal));
+      });
+      document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', () => closeModal(btn.closest('.modal-overlay')));
+      });
+      document.querySelectorAll('.modal-overlay').forEach(m => {
+        m.addEventListener('click', e => { if (e.target === m) closeModal(m); });
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m));
+          closeLightbox();
+        }
+      });
+
+      // ── Lightbox logic ──
+      const lightbox    = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxClose = document.getElementById('lightboxClose');
+
+      function openLightbox(src) {
+        lightboxImg.src = src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+      document.querySelectorAll('.design-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          const img = card.querySelector('img');
+          if (img) openLightbox(img.src);
+        });
+      });
     </script>
 
   </body>

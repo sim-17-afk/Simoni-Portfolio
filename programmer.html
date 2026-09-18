@@ -482,6 +482,131 @@
         .row, .contact-row { padding: 0 20px; }
         .section-divider { margin: 20px 20px 30px; }
       }
+
+      /* ─── VIEW ALL BUTTON ─── */
+      .view-all-btn {
+        margin-left: auto;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.18);
+        color: var(--accent2);
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        padding: 6px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+        white-space: nowrap;
+      }
+      .view-all-btn:hover {
+        background: var(--accent2);
+        border-color: var(--accent2);
+        color: #000;
+      }
+
+      /* ─── FULL-PAGE MODAL ─── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(0,0,0,0.92);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        overflow-y: auto;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-inner {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 80px 40px 60px;
+      }
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 36px;
+      }
+      .modal-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .modal-close {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
+        font-size: 1.4rem;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .modal-close:hover { background: rgba(255,255,255,0.2); }
+      .modal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+      }
+      .modal-grid .skill-pill {
+        flex-shrink: unset;
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+        padding: 18px 20px;
+      }
+      .modal-grid .cert-card {
+        flex-shrink: unset;
+        width: 100%;
+      }
+
+      /* ─── LIGHTBOX ─── */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 900;
+        background: rgba(0,0,0,0.96);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s;
+      }
+      .lightbox.open { opacity: 1; pointer-events: all; }
+      .lightbox img {
+        max-width: 90vw;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 6px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 20px; right: 24px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.25);
+        color: #fff;
+        font-size: 1.4rem;
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.2s;
+      }
+      .lightbox-close:hover { background: rgba(255,255,255,0.22); }
     </style>
   </head>
   <body>
@@ -528,6 +653,7 @@
         <div class="row-header">
           <h2 class="row-title">My Skills</h2>
           <span class="row-count">8 skills</span>
+          <button class="view-all-btn" data-modal="modal-skills">View All</button>
         </div>
         <div class="row-strip">
           <div class="skill-pill">C</div>
@@ -541,15 +667,35 @@
         </div>
       </div>
 
+      <!-- MODAL: Skills -->
+      <div class="modal-overlay" id="modal-skills" role="dialog" aria-modal="true" aria-label="All Skills">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 class="modal-title">My Skills</h2>
+            <button class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-grid">
+            <div class="skill-pill">C</div>
+            <div class="skill-pill">C++</div>
+            <div class="skill-pill">Java</div>
+            <div class="skill-pill">Python</div>
+            <div class="skill-pill">Javascript</div>
+            <div class="skill-pill">Git</div>
+            <div class="skill-pill">GitHub</div>
+            <div class="skill-pill">VS Code</div>
+          </div>
+        </div>
+      </div>
+
 
       <!-- CERTIFICATIONS -->
       <div class="row" id="certifications">
         <div class="row-header">
           <h2 class="row-title">Certifications</h2>
           <span class="row-count">5 certificates</span>
+          <button class="view-all-btn" data-modal="modal-certs">View All</button>
         </div>
         <div class="row-strip">
-
           <div class="cert-card">
             <div class="cert-card-img-placeholder">🔬</div>
             <div class="cert-card-body">
@@ -558,7 +704,6 @@
               <a class="cert-card-link" href="BCGX.pdf" target="_blank">View Certificate →</a>
             </div>
           </div>
-
           <div class="cert-card">
             <img src="pytorch.png" alt="PyTorch" />
             <div class="cert-card-body">
@@ -567,7 +712,6 @@
               <a class="cert-card-link" href="pytorch.png" target="_blank">View Certificate →</a>
             </div>
           </div>
-
           <div class="cert-card">
             <div class="cert-card-img-placeholder">🤖</div>
             <div class="cert-card-body">
@@ -576,7 +720,6 @@
               <a class="cert-card-link" href="#">View Certificate →</a>
             </div>
           </div>
-
           <div class="cert-card">
             <img src="be10x.png" alt="AI Tools" />
             <div class="cert-card-body">
@@ -585,7 +728,6 @@
               <a class="cert-card-link" href="be10x.png" target="_blank">View Certificate →</a>
             </div>
           </div>
-
           <div class="cert-card">
             <img src="c.png" alt="C Programming" />
             <div class="cert-card-body">
@@ -594,7 +736,58 @@
               <a class="cert-card-link" href="c.png" target="_blank">View Certificate →</a>
             </div>
           </div>
+        </div>
+      </div>
 
+      <!-- MODAL: Certifications -->
+      <div class="modal-overlay" id="modal-certs" role="dialog" aria-modal="true" aria-label="All Certifications">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 class="modal-title">Certifications</h2>
+            <button class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-grid">
+            <div class="cert-card">
+              <div class="cert-card-img-placeholder">🔬</div>
+              <div class="cert-card-body">
+                <div class="cert-card-title">BCG – Data Science Job Simulation</div>
+                <div class="cert-card-platform">Forage</div>
+                <a class="cert-card-link" href="BCGX.pdf" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+            <div class="cert-card">
+              <img src="pytorch.png" alt="PyTorch" />
+              <div class="cert-card-body">
+                <div class="cert-card-title">Introduction to PyTorch</div>
+                <div class="cert-card-platform">Simplilearn SkillUP</div>
+                <a class="cert-card-link" href="pytorch.png" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-card-img-placeholder">🤖</div>
+              <div class="cert-card-body">
+                <div class="cert-card-title">Industrial Robotics and Automation Workshop</div>
+                <div class="cert-card-platform">PMS Robotics Research Centre</div>
+                <a class="cert-card-link" href="#">View Certificate →</a>
+              </div>
+            </div>
+            <div class="cert-card">
+              <img src="be10x.png" alt="AI Tools" />
+              <div class="cert-card-body">
+                <div class="cert-card-title">AI Tools Workshop</div>
+                <div class="cert-card-platform">be10x</div>
+                <a class="cert-card-link" href="be10x.png" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+            <div class="cert-card">
+              <img src="c.png" alt="C Programming" />
+              <div class="cert-card-body">
+                <div class="cert-card-title">C Programming</div>
+                <div class="cert-card-platform">Great Learning Academy</div>
+                <a class="cert-card-link" href="c.png" target="_blank">View Certificate →</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -625,6 +818,12 @@
     </div><!-- /dashboard -->
 
     <footer>© 2025 Simoni Sawant &nbsp;|&nbsp; All Rights Reserved</footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+      <button class="lightbox-close" id="lightboxClose">&times;</button>
+      <img id="lightboxImg" src="" alt="Fullscreen" />
+    </div>
 
     <script>
       // Animated binary/code rain on hero canvas
@@ -666,6 +865,49 @@
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
       drawRain();
+
+      // ── Modal logic ──
+      function openModal(id) {
+        const m = document.getElementById(id);
+        if (!m) return;
+        m.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal(m) {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      document.querySelectorAll('.view-all-btn').forEach(btn => {
+        btn.addEventListener('click', () => openModal(btn.dataset.modal));
+      });
+      document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', () => closeModal(btn.closest('.modal-overlay')));
+      });
+      document.querySelectorAll('.modal-overlay').forEach(m => {
+        m.addEventListener('click', e => { if (e.target === m) closeModal(m); });
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m));
+          closeLightbox();
+        }
+      });
+
+      // ── Lightbox ──
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxClose = document.getElementById('lightboxClose');
+      function openLightbox(src) {
+        lightboxImg.src = src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
     </script>
 
   </body>
