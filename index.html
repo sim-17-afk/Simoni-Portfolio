@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <script>
+      // Immediate switch-profile check to prevent any intro flash
+      if (new URLSearchParams(window.location.search).get('switch') === '1' || window.location.hash === '#profiles') {
+        document.documentElement.classList.add('skip-intro');
+      }
+    </script>
     <style>
       *, *::before, *::after {
         margin: 0;
@@ -425,6 +431,18 @@
         animation: none !important;
       }
 
+      /* Instant display when arriving via Switch Profile */
+      html.skip-intro #netflixIntro {
+        display: none !important;
+      }
+      html.skip-intro body:not(.intro-done) header,
+      html.skip-intro body:not(.intro-done) .who-title,
+      html.skip-intro body:not(.intro-done) .profiles-grid,
+      html.skip-intro body:not(.intro-done) .manage-btn {
+        opacity: 1 !important;
+        animation: none !important;
+      }
+
       body.intro-done header {
         animation: fadeIn 0.6s ease forwards;
       }
@@ -834,8 +852,23 @@
         });
       }
 
-      // Start intro on page load
-      runIntro();
+      // Check if arriving from "Switch Profile"
+      const urlParams = new URLSearchParams(window.location.search);
+      const isSwitchProfile = urlParams.get('switch') === '1' || window.location.hash === '#profiles' || document.documentElement.classList.contains('skip-intro');
+
+      if (isSwitchProfile) {
+        // Skip intro immediately and display profiles
+        introActive = false;
+        if (introEl) introEl.style.display = 'none';
+        document.body.classList.add('intro-done');
+        // Clean URL so future reloads/refreshes play the intro
+        try {
+          history.replaceState(null, '', window.location.pathname);
+        } catch (e) {}
+      } else {
+        // Show animated intro on reload, refresh, or fresh visit
+        runIntro();
+      }
     </script>
 
   </body>
