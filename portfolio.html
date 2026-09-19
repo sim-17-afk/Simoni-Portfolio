@@ -53,18 +53,22 @@
 
       nav {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         height: 80px;
         background-color: rgb(11, 11, 78);
+        padding: 0 40px;
+        position: relative;
+        z-index: 100;
       }
       nav ul {
         display: flex;
         justify-content: center;
+        align-items: center;
       }
       nav ul li {
         list-style: none;
-        margin: 0 23px;
+        margin: 0 16px;
       }
       nav ul li a {
         text-decoration: none;
@@ -83,6 +87,66 @@
       }
       .left {
         font-size: 1.5rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: color 0.2s;
+      }
+      .left:hover {
+        color: blueviolet;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .nav-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #fff;
+        cursor: pointer;
+        padding: 6px 14px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        transition: background 0.25s, border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+        flex-shrink: 0;
+      }
+      .nav-profile:hover {
+        background: rgba(138, 43, 226, 0.25);
+        border-color: blueviolet;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+      }
+      .nav-profile img {
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        object-fit: cover;
+        border: 2px solid transparent;
+        transition: border-color 0.2s;
+        display: block;
+      }
+      .nav-profile:hover img {
+        border-color: #fff;
+      }
+      .nav-profile span {
+        font-size: 0.85rem;
+        color: #ddd;
+        font-weight: 500;
+        transition: color 0.2s;
+        white-space: nowrap;
+      }
+      .nav-profile:hover span {
+        color: #fff;
+      }
+      .mobile-switch-profile {
+        display: none;
       }
       .firstSection {
         display: flex;
@@ -383,6 +447,19 @@
           border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
+        .mobile-switch-profile {
+          display: block !important;
+          border-top: 1px solid rgba(138, 43, 226, 0.4) !important;
+          margin-top: 6px !important;
+          padding-top: 6px !important;
+        }
+
+        .mobile-switch-profile a {
+          color: #c4b5fd !important;
+          font-weight: 600 !important;
+          border-bottom: none !important;
+        }
+
         .firstSection {
           flex-direction: column;
           align-items: center;
@@ -445,6 +522,10 @@
         nav .left {
           font-size: 1.1rem;
         }
+
+        .nav-profile span { display: none; }
+        .nav-profile { padding: 4px; border-radius: 4px; }
+        .nav-profile img { width: 28px; height: 28px; }
 
         .firstSection {
           margin: 20px 0;
@@ -517,8 +598,7 @@
 
     <header>
       <nav>
-        <div class="left">Simoni's Portfolio</div>
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">☰</button>
+        <a href="index.html" class="left" title="Back to profile selection">Simoni's Portfolio</a>
         <div class="right" id="navRight">
           <ul>
             <li><a href="#home">Home</a></li>
@@ -527,9 +607,17 @@
             <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#certifications">Certifications</a></li>
-            <li><a href="Resumee.pdf">Resume</a></li>
+            <li><a href="Resumee.pdf" target="_blank">Resume</a></li>
             <li><a href="#contact">Contact Me</a></li>
+            <li class="mobile-switch-profile"><a href="index.html">⇄ Switch Profile</a></li>
           </ul>
+        </div>
+        <div class="nav-actions">
+          <a class="nav-profile" href="index.html" title="Switch Profile">
+            <img src="sim_avatar.jpg" alt="Sim" />
+            <span>Switch Profile</span>
+          </a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">☰</button>
         </div>
       </nav>
     </header>
@@ -662,13 +750,13 @@
           </div>
           <div class="project-card">
             <img src="spendsnitch.png" alt="SpendSnitch Project" />
-            <h3>SpendSnitch</h3>
+            <h3>SpendSnitch - A Personal Finance Tracker</h3>
             <p>
-              A personal finance tracker featuring real-time data visualization
-              and secure transaction management. Built with HTML, CSS,
-              Javascript, Node.js, and MongoDB.
+              Developed a full-stack expense tracking application with secure transaction management, expense categorization, filtering, and real-time data visualization to help users monitor their finances efficiently.
+              <br><br>
+              <strong>Technologies:</strong> HTML5, CSS3, JavaScript, Node.js, Express.js, MongoDB, Chart.js
             </p>
-            <a href="https://spendsnitch-web.onrender.com">View Project</a>
+            <a href="https://spendsnitch-web.onrender.com" target="_blank">View Project</a>
           </div>
         </div>
       </section>
@@ -757,7 +845,7 @@
       </section>
     </main>
 
-    <footer>© 2025 Simoni | All Rights Reserved</footer>
+    <footer>© 2025 Simoni | All Rights Reserved &nbsp;·&nbsp; <a href="index.html" style="color: #a78bfa; text-decoration: none;">Switch Profile</a></footer>
 
     <script>
       // HAMBURGER MENU TOGGLE
