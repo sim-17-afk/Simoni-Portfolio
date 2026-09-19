@@ -7,7 +7,7 @@
     <meta name="description" content="Simoni Sawant – CSE Student, Web Developer & Tech Enthusiast. Select a profile to explore." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
     <style>
       *, *::before, *::after {
         margin: 0;
@@ -256,9 +256,193 @@
           box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
         }
       }
+
+      /* ─── NETFLIX ANIMATED INTRO ─── */
+      .netflix-intro {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+      }
+
+      .netflix-intro.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .intro-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .intro-flare {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        background: radial-gradient(circle at center, rgba(229, 9, 20, 0.5) 0%, rgba(229, 9, 20, 0.15) 40%, transparent 70%);
+        opacity: 0;
+        transform: scale(0.6);
+        transition: opacity 0.5s ease, transform 0.8s ease;
+      }
+
+      .intro-flare.active {
+        opacity: 1;
+        transform: scale(1.8);
+      }
+
+      .intro-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .intro-logo {
+        font-family: 'Bebas Neue', 'Outfit', sans-serif;
+        font-size: clamp(4.5rem, 15vw, 11rem);
+        font-weight: 900;
+        letter-spacing: clamp(0.08em, 1.8vw, 0.22em);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+        background: linear-gradient(180deg, #ff2a34 0%, #E50914 45%, #b30710 80%, #660004 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 35px rgba(229, 9, 20, 0.7)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.9));
+        transform: scale(0.85);
+        opacity: 0;
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease;
+        will-change: transform, opacity, filter;
+      }
+
+      .intro-logo.reveal {
+        opacity: 1;
+        transform: scale(1.04);
+        filter: drop-shadow(0 0 50px rgba(229, 9, 20, 0.95)) drop-shadow(0 0 90px rgba(255, 40, 40, 0.6));
+      }
+
+      .intro-logo.hyper-zoom {
+        transform: scale(18);
+        opacity: 0;
+        filter: drop-shadow(0 0 100px rgba(255, 255, 255, 1));
+        transition: transform 1.15s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.9s cubic-bezier(0.7, 0, 0.84, 0);
+      }
+
+      /* Netflix curved arch letters */
+      .intro-letter {
+        display: inline-block;
+        transition: transform 0.3s ease;
+      }
+      .intro-letter.l-s { transform: translateY(5px) rotate(-1.8deg); }
+      .intro-letter.l-i1 { transform: translateY(1.5px) rotate(-0.8deg); }
+      .intro-letter.l-m { transform: translateY(0); }
+      .intro-letter.l-o { transform: translateY(0); }
+      .intro-letter.l-n { transform: translateY(1.5px) rotate(0.8deg); }
+      .intro-letter.l-i2 { transform: translateY(5px) rotate(1.8deg); }
+
+      /* Intro controls */
+      .intro-controls {
+        position: absolute;
+        bottom: 30px;
+        right: 36px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .intro-btn {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      }
+
+      .intro-btn:hover {
+        background: rgba(255, 255, 255, 0.24);
+        border-color: #fff;
+        transform: scale(1.04);
+      }
+
+      /* Replay hover effect on header logo */
+      .netflix-logo {
+        cursor: pointer;
+        transition: transform 0.2s, text-shadow 0.2s;
+      }
+      .netflix-logo:hover {
+        transform: scale(1.04);
+        text-shadow: 0 0 35px rgba(229, 9, 20, 0.9);
+      }
+
+      /* Synchronize landing page reveal with intro completion */
+      body:not(.intro-done) header,
+      body:not(.intro-done) .who-title,
+      body:not(.intro-done) .profiles-grid,
+      body:not(.intro-done) .manage-btn {
+        opacity: 0 !important;
+        animation: none !important;
+      }
+
+      body.intro-done header {
+        animation: fadeIn 0.6s ease forwards;
+      }
+      body.intro-done .who-title {
+        animation: fadeDown 0.7s ease 0.1s forwards;
+      }
+      body.intro-done .profiles-grid {
+        animation: fadeUp 0.7s ease 0.3s forwards;
+      }
+      body.intro-done .manage-btn {
+        animation: fadeIn 0.7s ease 0.5s forwards;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
     </style>
   </head>
   <body>
+
+    <!-- ─── Netflix Animated Intro: SIMONI ─── -->
+    <div id="netflixIntro" class="netflix-intro" role="banner" aria-label="SIMONI Netflix Intro">
+      <canvas id="introCanvas" class="intro-canvas"></canvas>
+      <div class="intro-flare" id="introFlare"></div>
+      <div class="intro-content">
+        <div class="intro-logo" id="introLogo">
+          <span class="intro-letter l-s">S</span>
+          <span class="intro-letter l-i1">I</span>
+          <span class="intro-letter l-m">M</span>
+          <span class="intro-letter l-o">O</span>
+          <span class="intro-letter l-n">N</span>
+          <span class="intro-letter l-i2">I</span>
+        </div>
+      </div>
+      <div class="intro-controls">
+        <button class="intro-btn" id="introSoundBtn" aria-label="Toggle Sound" title="Sound">🔊 Sound</button>
+        <button class="intro-btn" id="introSkipBtn" aria-label="Skip Intro">Skip Intro &gt;</button>
+      </div>
+    </div>
 
     <!-- Fade-to-black overlay used on profile click -->
     <div class="click-overlay" id="clickOverlay"></div>
@@ -356,6 +540,280 @@
           grid.style.transform = `perspective(800px) rotateY(${dx * 3}deg) rotateX(${-dy * 2}deg)`;
         });
       }
+
+      // ═════════════════════════════════════════════════════════
+      // NETFLIX ANIMATED INTRO CONTROLLER ("SIMONI")
+      // ═════════════════════════════════════════════════════════
+      const introEl       = document.getElementById('netflixIntro');
+      const introLogo     = document.getElementById('introLogo');
+      const introFlare    = document.getElementById('introFlare');
+      const introCanvas   = document.getElementById('introCanvas');
+      const introSkipBtn  = document.getElementById('introSkipBtn');
+      const introSoundBtn = document.getElementById('introSoundBtn');
+      const headerLogo    = document.querySelector('.netflix-logo');
+
+      let audioCtx = null;
+      let soundMuted = false;
+      let introActive = true;
+      let ribbonAnimationId = null;
+
+      // Authentic Web Audio "TA-DUM" Synthesizer
+      function playNetflixTaDum() {
+        if (soundMuted) return;
+        try {
+          const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtxClass) return;
+          if (!audioCtx) audioCtx = new AudioCtxClass();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+
+          const t0 = audioCtx.currentTime + 0.05;
+
+          // 1. "Ta" - First sub strike
+          const osc1 = audioCtx.createOscillator();
+          const gain1 = audioCtx.createGain();
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(82, t0);
+          osc1.frequency.exponentialRampToValueAtTime(32, t0 + 0.28);
+          gain1.gain.setValueAtTime(0.85, t0);
+          gain1.gain.exponentialRampToValueAtTime(0.001, t0 + 0.35);
+          osc1.connect(gain1);
+          gain1.connect(audioCtx.destination);
+          osc1.start(t0);
+          osc1.stop(t0 + 0.4);
+
+          // 2. "Dum" - Heavy cinematic resonant thud
+          const t1 = t0 + 0.24;
+          const osc2 = audioCtx.createOscillator();
+          const gain2 = audioCtx.createGain();
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(68, t1);
+          osc2.frequency.exponentialRampToValueAtTime(24, t1 + 0.9);
+          gain2.gain.setValueAtTime(1.0, t1);
+          gain2.gain.exponentialRampToValueAtTime(0.001, t1 + 1.25);
+          osc2.connect(gain2);
+          gain2.connect(audioCtx.destination);
+          osc2.start(t1);
+          osc2.stop(t1 + 1.35);
+
+          // 3. Metallic hit / anvil harmonic sheen
+          const oscMetal = audioCtx.createOscillator();
+          const filterMetal = audioCtx.createBiquadFilter();
+          const gainMetal = audioCtx.createGain();
+          filterMetal.type = 'bandpass';
+          filterMetal.frequency.value = 1150;
+          filterMetal.Q.value = 5;
+          oscMetal.type = 'sawtooth';
+          oscMetal.frequency.setValueAtTime(230, t1);
+          oscMetal.frequency.exponentialRampToValueAtTime(75, t1 + 0.5);
+          gainMetal.gain.setValueAtTime(0.35, t1);
+          gainMetal.gain.exponentialRampToValueAtTime(0.001, t1 + 0.65);
+          oscMetal.connect(filterMetal);
+          filterMetal.connect(gainMetal);
+          gainMetal.connect(audioCtx.destination);
+          oscMetal.start(t1);
+          oscMetal.stop(t1 + 0.7);
+
+          // 4. Cinematic bass drone swell
+          const oscDrone = audioCtx.createOscillator();
+          const filterDrone = audioCtx.createBiquadFilter();
+          const gainDrone = audioCtx.createGain();
+          filterDrone.type = 'lowpass';
+          filterDrone.frequency.setValueAtTime(110, t1);
+          filterDrone.frequency.exponentialRampToValueAtTime(420, t1 + 0.7);
+          filterDrone.frequency.exponentialRampToValueAtTime(70, t1 + 1.8);
+          oscDrone.type = 'sawtooth';
+          oscDrone.frequency.setValueAtTime(55, t1); // A1 note
+          gainDrone.gain.setValueAtTime(0.01, t1);
+          gainDrone.gain.linearRampToValueAtTime(0.35, t1 + 0.15);
+          gainDrone.gain.exponentialRampToValueAtTime(0.001, t1 + 1.9);
+          oscDrone.connect(filterDrone);
+          filterDrone.connect(gainDrone);
+          gainDrone.connect(audioCtx.destination);
+          oscDrone.start(t1);
+          oscDrone.stop(t1 + 2.0);
+        } catch (e) {
+          // Autoplay policy fallback
+        }
+      }
+
+      // ─── 3D Light Ribbon Spectrum Canvas ───
+      const ctx = introCanvas.getContext('2d');
+      let ribbons = [];
+      let canvasActive = false;
+
+      function resizeIntroCanvas() {
+        introCanvas.width = window.innerWidth;
+        introCanvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeIntroCanvas);
+      resizeIntroCanvas();
+
+      class SpectrumRibbon {
+        constructor() {
+          this.reset(true);
+        }
+        reset(randomZ = false) {
+          const w = introCanvas.width;
+          const h = introCanvas.height;
+          this.x = (Math.random() - 0.5) * (w * 0.85);
+          this.y = (Math.random() - 0.5) * (h * 0.35);
+          this.z = randomZ ? Math.random() * 850 + 150 : 1000;
+          this.width = Math.random() * 7 + 3;
+          this.height = Math.random() * 260 + 140;
+          this.speed = Math.random() * 28 + 22;
+          const palette = [
+            '#E50914', '#FF2A34', '#FF0055', '#D10029', // Netflix reds
+            '#9D4EDD', '#8A2BE2', // Violet
+            '#00F5D4', '#00BBF9', // Cyan
+            '#FEE440', '#F72585', // Yellow / Magenta
+            '#FFFFFF'             // White core
+          ];
+          this.color = palette[Math.floor(Math.random() * palette.length)];
+          this.alpha = Math.random() * 0.65 + 0.35;
+        }
+        update() {
+          this.z -= this.speed;
+          if (this.z <= 8) {
+            this.reset(false);
+          }
+        }
+        draw(cx, cy) {
+          const fov = 380;
+          const scale = fov / Math.max(this.z, 1);
+          const sx = cx + this.x * scale;
+          const sy = cy + this.y * scale;
+          const sw = this.width * scale;
+          const sh = this.height * scale;
+
+          ctx.save();
+          ctx.globalAlpha = Math.min(1, this.alpha * (scale * 0.85));
+          ctx.fillStyle = this.color;
+          ctx.shadowBlur = Math.min(30, 16 * scale);
+          ctx.shadowColor = this.color;
+          ctx.fillRect(sx - sw / 2, sy - sh / 2, sw, sh);
+          ctx.restore();
+        }
+      }
+
+      function initRibbons() {
+        ribbons = [];
+        for (let i = 0; i < 75; i++) {
+          ribbons.push(new SpectrumRibbon());
+        }
+      }
+
+      function animateRibbons() {
+        if (!canvasActive) return;
+        ctx.clearRect(0, 0, introCanvas.width, introCanvas.height);
+        ctx.globalCompositeOperation = 'screen';
+        const cx = introCanvas.width / 2;
+        const cy = introCanvas.height / 2;
+        for (let r of ribbons) {
+          r.update();
+          r.draw(cx, cy);
+        }
+        ribbonAnimationId = requestAnimationFrame(animateRibbons);
+      }
+
+      // ─── Sequence Runner ───
+      let timers = [];
+      function runIntro() {
+        introActive = true;
+        introEl.classList.remove('fade-out');
+        introEl.style.display = 'flex';
+        introLogo.classList.remove('reveal', 'hyper-zoom');
+        introFlare.classList.remove('active');
+        document.body.classList.remove('intro-done');
+        ctx.clearRect(0, 0, introCanvas.width, introCanvas.height);
+
+        // Try sound
+        playNetflixTaDum();
+
+        // 1. Logo fades and gently scales in
+        timers.push(setTimeout(() => {
+          if (!introActive) return;
+          introLogo.classList.add('reveal');
+        }, 150));
+
+        // 2. Flare and ribbon explosion burst
+        timers.push(setTimeout(() => {
+          if (!introActive) return;
+          introFlare.classList.add('active');
+          initRibbons();
+          canvasActive = true;
+          animateRibbons();
+        }, 1100));
+
+        // 3. Hyper-zoom into letters
+        timers.push(setTimeout(() => {
+          if (!introActive) return;
+          introLogo.classList.add('hyper-zoom');
+        }, 1900));
+
+        // 4. Smooth cross-dissolve to profiles page
+        timers.push(setTimeout(() => {
+          if (!introActive) return;
+          finishIntro();
+        }, 2900));
+      }
+
+      function finishIntro() {
+        if (!introActive) return;
+        introActive = false;
+        timers.forEach(t => clearTimeout(t));
+        timers = [];
+        introEl.classList.add('fade-out');
+        document.body.classList.add('intro-done');
+
+        setTimeout(() => {
+          canvasActive = false;
+          if (ribbonAnimationId) cancelAnimationFrame(ribbonAnimationId);
+          introEl.style.display = 'none';
+        }, 650);
+      }
+
+      // Skip & interaction events
+      introSkipBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        finishIntro();
+      });
+
+      introSoundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        soundMuted = !soundMuted;
+        introSoundBtn.textContent = soundMuted ? '🔇 Muted' : '🔊 Sound';
+        if (!soundMuted && introActive) {
+          playNetflixTaDum();
+        }
+      });
+
+      introEl.addEventListener('click', () => {
+        finishIntro();
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (introActive && (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter')) {
+          e.preventDefault();
+          finishIntro();
+        }
+      });
+
+      // Resume sound on first user touch if blocked by autoplay policy
+      window.addEventListener('pointerdown', () => {
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      }, { once: true });
+
+      // Click "SIMONI" in header to replay intro
+      if (headerLogo) {
+        headerLogo.addEventListener('click', () => {
+          runIntro();
+        });
+      }
+
+      // Start intro on page load
+      runIntro();
     </script>
 
   </body>
